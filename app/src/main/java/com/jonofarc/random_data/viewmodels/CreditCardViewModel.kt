@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class CreditCardViewModel : ViewModel() {
     private val repository = CreditCardRepository()
 
-    private val _creditCards = MutableLiveData<CreditCard>()
-    val creditCards: LiveData<CreditCard> = _creditCards
+    private val _creditCards = MutableLiveData<List<CreditCard>>()
+    val creditCards: LiveData<List<CreditCard>> = _creditCards
 
     fun fetchCreditCards() {
         viewModelScope.launch {

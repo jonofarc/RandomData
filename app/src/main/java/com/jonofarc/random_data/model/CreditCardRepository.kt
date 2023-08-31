@@ -5,7 +5,7 @@ import com.jonofarc.random_data.services.RetrofitInstance
 class CreditCardRepository {
     private val creditCardService = RetrofitInstance.creditCardService
 
-    suspend fun getCreditCards(): CreditCard {
+    suspend fun getCreditCards(): List<CreditCard> {
         return creditCardService.getCreditCards()
     }
 }

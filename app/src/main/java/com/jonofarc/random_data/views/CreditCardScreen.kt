@@ -21,26 +21,55 @@ import com.jonofarc.random_data.viewmodels.CreditCardViewModel
 
 @Composable
 fun CreditCardScreen(viewModel: CreditCardViewModel) {
-    val creditCard by viewModel.creditCards.observeAsState()
+    val creditCards by viewModel.creditCards.observeAsState(emptyList())
+
+
 
 
     LaunchedEffect(Unit) {
         viewModel.fetchCreditCards()
     }
-
+    Log.d("jon", "11111111111")
+    Log.d("jon", "11111111111")
     Column {
-        if (creditCard == null) {
+        if (creditCards.isEmpty()) {
             // Show loading indicator or placeholder
             Text(text = "Loading...")
 
+            val context = LocalContext.current
+            val permissionState = remember { mutableStateOf(false) }
+
+            // This contract handles the result of the permission request
+            val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                permissionState.value = isGranted
+            }
+
+            Column {
+                Text(text = "Internet Permission Example")
+                Button(onClick = {
+                    // Request the internet permission
+                    permissionLauncher.launch(Manifest.permission.INTERNET)
+                }) {
+                    Text(text = "Request Internet Permission")
+                }
+
+                if (permissionState.value) {
+                    Text(text = "Internet permission granted!")
+                } else {
+                    Text(text = "Internet permission not granted.")
+                }
+            }
 
         } else {
-            Text(text = creditCard?.id.toString())
-            Text(text = creditCard?.uid.toString())
-            Text(text = creditCard?.creditCardNumber.toString())
-            Text(text = creditCard?.creditCardExpiryDate.toString())
-            Text(text = creditCard?.creditCardType.toString())
-            Divider() // Add a divider between items
+            // Display the list of credit cards
+            LazyColumn {
+                items(creditCards) { creditCard ->
+                    Text(text = creditCard.id.toString())
+                    Text(text = creditCard.uid.toString())
+                    Text(text = creditCard.creditCardNumber.toString())
+                    Divider() // Add a divider between items
+                }
+            }
         }
     }
 }

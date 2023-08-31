@@ -4,6 +4,6 @@ import com.jonofarc.random_data.model.CreditCard
 import retrofit2.http.GET
 
 interface CreditCardService {
-    @GET("credit_cards")
-    suspend fun getCreditCards(): CreditCard
+    @GET("credit_cards?size=3")
+    suspend fun getCreditCards(): List<CreditCard>
 }
