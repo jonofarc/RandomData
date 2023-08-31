@@ -24,13 +24,10 @@ fun CreditCardScreen(viewModel: CreditCardViewModel) {
     val creditCards by viewModel.creditCards.observeAsState(emptyList())
 
 
-
-
     LaunchedEffect(Unit) {
         viewModel.fetchCreditCards()
     }
-    Log.d("jon", "11111111111")
-    Log.d("jon", "11111111111")
+
     Column {
         if (creditCards.isEmpty()) {
             // Show loading indicator or placeholder
@@ -67,6 +64,8 @@ fun CreditCardScreen(viewModel: CreditCardViewModel) {
                     Text(text = creditCard.id.toString())
                     Text(text = creditCard.uid.toString())
                     Text(text = creditCard.creditCardNumber.toString())
+                    Text(text = creditCard.creditCardExpiryDate.toString())
+                    Text(text = creditCard.creditCardType.toString())
                     Divider() // Add a divider between items
                 }
             }
